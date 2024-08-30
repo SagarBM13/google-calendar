@@ -1,5 +1,3 @@
-
-```markdown
 # Calendar Application
 
 ## Overview
