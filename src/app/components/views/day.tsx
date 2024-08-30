@@ -1,33 +1,18 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import dayJson from '@/app/data/day-events.json';
-// Event interface to define the structure of an event
-interface Event {
-    time: string;
-    title: string;
-    person: string;
-}
+import { Event } from '@/app/interfaces/event';
+import { useDate } from '@/app/context/date-provider';
 
 // JSON data for multiple people's events
 const events: Event[] = dayJson;
 
 const Day: React.FC = () => {
-    // State to track the current date
-    const [currentDate, setCurrentDate] = useState(moment());
-
+    const { selectedDate, goToPreviousDay, goToNextDay } = useDate()
     // Generate the hours for the current day
-    const startOfDay = currentDate.clone().startOf('day');
+    const startOfDay = selectedDate.clone().startOf('day');
     const hours = [...Array(24)].map((_, i) => startOfDay.clone().add(i, 'hours'));
 
-    // Function to navigate to the previous day
-    const goToPreviousDay = () => {
-        setCurrentDate(prevDate => prevDate.clone().subtract(1, 'day'));
-    };
-
-    // Function to navigate to the next day
-    const goToNextDay = () => {
-        setCurrentDate(prevDate => prevDate.clone().add(1, 'day'));
-    };
 
     // Function to filter events for a specific hour
     const getEventsForHour = (hour: moment.Moment) => {
@@ -40,7 +25,7 @@ const Day: React.FC = () => {
                 <button onClick={goToPreviousDay} className="px-4 py-2 bg-gray-300 rounded">← Previous</button>
 
                 <h2 className="text-lg font-semibold">
-                    {currentDate.format('MMMM Do, YYYY')}
+                    {selectedDate.format('MMMM Do, YYYY')}
                 </h2>
                 <button onClick={goToNextDay} className="px-4 py-2 bg-gray-300 rounded">Next →</button>
 

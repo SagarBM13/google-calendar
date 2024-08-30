@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import moment from 'moment';
+import { useDate } from '@/app/context/date-provider';
 
-const DatePicker: React.FC<{ onSelectDate: (date: moment.Moment) => void }> = ({ onSelectDate }) => {
-    const [selectedDate, setSelectedDate] = useState(moment());
-    const [currentMonth, setCurrentMonth] = useState(moment().startOf('month'));
+const DatePicker: React.FC = () => {
+    const { selectedDate, setSelectedDate } = useDate();
+    const currentMonth = moment(selectedDate).startOf('month');
 
     const startOfWeek = currentMonth.clone().startOf('week');
     const endOfWeek = currentMonth.clone().endOf('week');
@@ -11,31 +12,29 @@ const DatePicker: React.FC<{ onSelectDate: (date: moment.Moment) => void }> = ({
     const daysInMonth = [];
     let day = startOfWeek;
 
-    // Fill the array with days to cover the entire month view (including days from previous and next months)
     while (day <= currentMonth.clone().endOf('month').endOf('week')) {
         daysInMonth.push(day.clone());
         day = day.add(1, 'day');
     }
 
     const goToPreviousMonth = () => {
-        setCurrentMonth(prevMonth => prevMonth.clone().subtract(1, 'month'));
+        setSelectedDate(selectedDate.clone().subtract(1, 'month').startOf('month'));
     };
 
     const goToNextMonth = () => {
-        setCurrentMonth(prevMonth => prevMonth.clone().add(1, 'month'));
+        setSelectedDate(selectedDate.clone().add(1, 'month').startOf('month'));
     };
 
     const goToPreviousYear = () => {
-        setCurrentMonth(prevMonth => prevMonth.clone().subtract(1, 'year'));
+        setSelectedDate(selectedDate.clone().subtract(1, 'year').startOf('month'));
     };
 
     const goToNextYear = () => {
-        setCurrentMonth(prevMonth => prevMonth.clone().add(1, 'year'));
+        setSelectedDate(selectedDate.clone().add(1, 'year').startOf('month'));
     };
 
     const handleDateClick = (date: moment.Moment) => {
         setSelectedDate(date);
-        onSelectDate(date);
     };
 
     return (
