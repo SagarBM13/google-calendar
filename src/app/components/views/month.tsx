@@ -19,9 +19,9 @@ const Month: React.FC = () => {
         <div>
             <div className="flex justify-between items-center mb-4">
 
-                <button onClick={goToPreviousMonth} className="px-4 py-2 bg-gray-300 rounded">← Previous</button>
-                <h2 className="text-lg font-semibold mb-1">{selectedDate.format('MMMM YYYY')}</h2>
-                <button onClick={goToNextMonth} className="px-4 py-2 bg-gray-300 rounded">Next →</button>
+                <button onClick={goToPreviousMonth} className="px-4 py-2 bg-gray-300 text-neutral-800 rounded">← Previous</button>
+                <h2 className="text-lg font-semibold mb-1 text-neutral-800">{selectedDate.format('MMMM YYYY')}</h2>
+                <button onClick={goToNextMonth} className="px-4 py-2 bg-gray-300 text-neutral-800 rounded">Next →</button>
 
             </div>
 
@@ -32,7 +32,7 @@ const Month: React.FC = () => {
                     </div>
                 ))}
                 {days.map((day, i) => (
-                    <div key={i} className="border p-4 rounded-lg h-36">
+                    <div key={i} className="border p-4 rounded-lg h-36 text-neutral-800">
                         <h3 className="font-semibold">{day.format('D')}</h3>
                     </div>
                 ))}

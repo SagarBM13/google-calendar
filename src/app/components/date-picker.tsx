@@ -28,20 +28,20 @@ const DatePicker: React.FC = () => {
             <div className="mb-4">
                 <div className="flex justify-between items-center mb-4">
                     <div className="flex space-x-2">
-                        <button onClick={goToPreviousYear} className="text-xl px-2 py-1 bg-gray-200 rounded-lg">
+                        <button onClick={goToPreviousYear} className="text-xl px-2 py-1 bg-gray-200 text-neutral-800 rounded-lg h-10 w-10">
                             &laquo;
                         </button>
-                        <button onClick={goToPreviousMonth} className="text-xl px-2 py-1 bg-gray-200 rounded-lg">
+                        <button onClick={goToPreviousMonth} className="text-xl px-2 py-1 bg-gray-200 text-neutral-800 rounded-lg h-10 w-10">
                             &larr;
                         </button>
-                        <button onClick={goToNextMonth} className="text-xl px-2 py-1 bg-gray-200 rounded-lg">
+                        <button onClick={goToNextMonth} className="text-xl px-2 py-1 bg-gray-200 text-neutral-800 rounded-lg h-10 w-10">
                             &rarr;
                         </button>
-                        <button onClick={goToNextYear} className="text-xl px-2 py-1 bg-gray-200 rounded-lg">
+                        <button onClick={goToNextYear} className="text-xl px-2 py-1 bg-gray-200 text-neutral-800 rounded-lg h-10 w-10">
                             &raquo;
                         </button>
                     </div>
-                    <h2 className="text-lg font-semibold">
+                    <h2 className="text-lg font-semibold text-neutral-800">
                         {currentMonth.format('MMMM YYYY')}
                     </h2>
                 </div>
@@ -53,16 +53,16 @@ const DatePicker: React.FC = () => {
             </div>
             <div className="grid grid-cols-7 gap-2">
                 {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((dayName, i) => (
-                    <div key={i} className="text-center font-semibold">
+                    <div key={i} className="text-center font-semibold text-neutral-800">
                         {dayName}
                     </div>
                 ))}
                 {daysInMonth.map((day, i) => (
                     <div
                         key={i}
-                        className={`p-2 text-center rounded-lg cursor-pointer ${day.month() !== currentMonth.month() ? 'text-gray-400' : ''
-                            } ${day.isSame(selectedDate, 'day') ? 'bg-blue-500 text-white' : 'bg-white'
-                            } ${day.isSame(moment(), 'day') ? 'border border-red-500' : ''
+                        className={`p-2 text-center  rounded-lg cursor-pointer ${day.month() !== currentMonth.month() ? 'text-gray-400' : ''
+                            } ${day.isSame(selectedDate, 'day') ? 'bg-blue-500 text-white' : 'bg-white text-neutral-600'
+                            } ${day.isSame(moment(), 'day') ? 'border border-blue-950' : ''
                             }`}
                         onClick={() => handleDateClick(day)}
                     >

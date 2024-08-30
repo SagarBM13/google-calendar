@@ -22,12 +22,12 @@ const Day: React.FC = () => {
     return (
         <div>
             <div className="flex justify-between items-center mb-4">
-                <button onClick={goToPreviousDay} className="px-4 py-2 bg-gray-300 rounded">← Previous</button>
+                <button onClick={goToPreviousDay} className="px-4 py-2 bg-gray-300 rounded text-neutral-800">← Previous</button>
 
-                <h2 className="text-lg font-semibold">
+                <h2 className="text-lg font-semibold text-neutral-800">
                     {selectedDate.format('MMMM Do, YYYY')}
                 </h2>
-                <button onClick={goToNextDay} className="px-4 py-2 bg-gray-300 rounded">Next →</button>
+                <button onClick={goToNextDay} className="px-4 py-2 bg-gray-300 rounded text-neutral-800 ">Next →</button>
 
             </div>
             <div className="grid grid-cols-12 gap-4">
@@ -39,14 +39,14 @@ const Day: React.FC = () => {
                 {hours.map((hour, i) => (
                     <React.Fragment key={i}>
                         {/* Hour column */}
-                        <div className="col-span-2 border p-2 rounded-lg bg-gray-100">
+                        <div className="col-span-2 border p-2 rounded-lg bg-gray-100 text-neutral-800">
                             {hour.format('h:mm A')}
                         </div>
                         {/* Event column */}
                         <div className="col-span-10 border p-2 rounded-lg">
                             <div className="grid grid-cols-3 gap-2">
                                 {getEventsForHour(hour).map((event, j) => (
-                                    <div key={j} className="border p-2 rounded-lg bg-blue-100">
+                                    <div key={j} className="border p-2 rounded-lg bg-blue-100 text-neutral-700">
                                         <strong>{event.person}:</strong> {event.title}
                                     </div>
                                 ))}
