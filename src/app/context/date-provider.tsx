@@ -17,12 +17,23 @@ export const DateProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setSelectedDate(prevDate => prevDate.clone().add(1, 'day'));
     };
 
+    const goToPreviousWeek = () => {
+        setSelectedDate(prevDate => prevDate.clone().subtract(1, 'week'));
+    };
+
+    const goToNextWeek = () => {
+        setSelectedDate(prevDate => prevDate.clone().add(1, 'week'));
+    };
+
     return (
         <DateContext.Provider value={{
             selectedDate,
             setSelectedDate,
             goToPreviousDay,
-            goToNextDay
+            goToNextDay,
+            goToPreviousWeek,
+            goToNextWeek
+
         }}>
             {children}
         </DateContext.Provider>

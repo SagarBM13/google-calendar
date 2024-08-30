@@ -1,29 +1,22 @@
 import React, { useState } from 'react';
 import moment from 'moment';
+import { useDate } from '@/app/context/date-provider';
 
 const Week: React.FC = () => {
-    const [currentWeek, setCurrentWeek] = useState(moment().startOf('week'));
+    const { selectedDate, goToPreviousWeek, goToNextWeek } = useDate();
 
-    const startOfWeek = currentWeek.clone().startOf('week');
-    const endOfWeek = currentWeek.clone().endOf('week');
+    const startOfWeek = selectedDate.clone().startOf('week');
+    const endOfWeek = selectedDate.clone().endOf('week');
     const days = [...Array(7)].map((_, i) => startOfWeek.clone().add(i, 'days'));
-
-    const handlePrevWeek = () => {
-        setCurrentWeek(prev => prev.clone().subtract(1, 'week'));
-    };
-
-    const handleNextWeek = () => {
-        setCurrentWeek(prev => prev.clone().add(1, 'week'));
-    };
 
     return (
         <div>
             <div className="flex items-center justify-between mb-4">
-                <button onClick={handlePrevWeek} className="px-4 py-2 bg-gray-300 rounded">← Previous</button>
+                <button onClick={goToPreviousWeek} className="px-4 py-2 bg-gray-300 rounded">← Previous</button>
                 <div className="text-lg font-semibold">
                     {startOfWeek.format('MMMM D')} - {endOfWeek.format('MMMM D')}
                 </div>
-                <button onClick={handleNextWeek} className="px-4 py-2 bg-gray-300 rounded">Next →</button>
+                <button onClick={goToNextWeek} className="px-4 py-2 bg-gray-300 rounded">Next →</button>
             </div>
 
             <table className="w-full border-collapse">

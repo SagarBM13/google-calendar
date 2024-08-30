@@ -5,4 +5,6 @@ export interface DateContextType {
     setSelectedDate: (date: moment.Moment) => void;
     goToPreviousDay: () => void;
     goToNextDay: () => void;
+    goToPreviousWeek: () => void;
+    goToNextWeek: () => void;
 }
