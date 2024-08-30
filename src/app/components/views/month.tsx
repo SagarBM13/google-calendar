@@ -20,9 +20,7 @@ const Month: React.FC = () => {
             <div className="flex justify-between items-center mb-4">
 
                 <button onClick={goToPreviousMonth} className="px-4 py-2 bg-gray-300 rounded">← Previous</button>
-
                 <h2 className="text-lg font-semibold mb-1">{selectedDate.format('MMMM YYYY')}</h2>
-
                 <button onClick={goToNextMonth} className="px-4 py-2 bg-gray-300 rounded">Next →</button>
 
             </div>

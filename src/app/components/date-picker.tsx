@@ -3,11 +3,17 @@ import moment from 'moment';
 import { useDate } from '@/app/context/date-provider';
 
 const DatePicker: React.FC = () => {
-    const { selectedDate, setSelectedDate } = useDate();
+    const { selectedDate,
+        setSelectedDate,
+        goToPreviousMonth,
+        goToNextMonth,
+        goToPreviousYear,
+        goToNextYear,
+        resetToToday,
+        handleDateClick } = useDate();
     const currentMonth = moment(selectedDate).startOf('month');
 
     const startOfWeek = currentMonth.clone().startOf('week');
-    const endOfWeek = currentMonth.clone().endOf('week');
 
     const daysInMonth = [];
     let day = startOfWeek;
@@ -17,46 +23,31 @@ const DatePicker: React.FC = () => {
         day = day.add(1, 'day');
     }
 
-    const goToPreviousMonth = () => {
-        setSelectedDate(selectedDate.clone().subtract(1, 'month').startOf('month'));
-    };
-
-    const goToNextMonth = () => {
-        setSelectedDate(selectedDate.clone().add(1, 'month').startOf('month'));
-    };
-
-    const goToPreviousYear = () => {
-        setSelectedDate(selectedDate.clone().subtract(1, 'year').startOf('month'));
-    };
-
-    const goToNextYear = () => {
-        setSelectedDate(selectedDate.clone().add(1, 'year').startOf('month'));
-    };
-
-    const handleDateClick = (date: moment.Moment) => {
-        setSelectedDate(date);
-    };
-
     return (
         <div className="border p-4 rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-                <div className="flex space-x-2">
-                    <button onClick={goToPreviousYear} className="text-xl px-2 py-1 bg-gray-200 rounded-lg">
-                        &laquo;
-                    </button>
-                    <button onClick={goToPreviousMonth} className="text-xl px-2 py-1 bg-gray-200 rounded-lg">
-                        &larr;
-                    </button>
+            <div className="mb-4">
+                <div className="flex justify-between items-center mb-4">
+                    <div className="flex space-x-2">
+                        <button onClick={goToPreviousYear} className="text-xl px-2 py-1 bg-gray-200 rounded-lg">
+                            &laquo;
+                        </button>
+                        <button onClick={goToPreviousMonth} className="text-xl px-2 py-1 bg-gray-200 rounded-lg">
+                            &larr;
+                        </button>
+                        <button onClick={goToNextMonth} className="text-xl px-2 py-1 bg-gray-200 rounded-lg">
+                            &rarr;
+                        </button>
+                        <button onClick={goToNextYear} className="text-xl px-2 py-1 bg-gray-200 rounded-lg">
+                            &raquo;
+                        </button>
+                    </div>
+                    <h2 className="text-lg font-semibold">
+                        {currentMonth.format('MMMM YYYY')}
+                    </h2>
                 </div>
-                <h2 className="text-lg font-semibold">
-                    {currentMonth.format('MMMM YYYY')}
-                </h2>
-                <div className="flex space-x-2">
-                    <button onClick={goToNextMonth} className="text-xl px-2 py-1 bg-gray-200 rounded-lg">
-                        &rarr;
-                    </button>
-                    <button onClick={goToNextYear} className="text-xl px-2 py-1 bg-gray-200 rounded-lg">
-                        &raquo;
+                <div className="flex justify-center mb-4">
+                    <button onClick={resetToToday} className="text-xl px-2 py-1 bg-green-500 text-white rounded-lg">
+                        Today
                     </button>
                 </div>
             </div>

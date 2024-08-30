@@ -9,4 +9,8 @@ export interface DateContextType {
     goToNextWeek: () => void;
     goToPreviousMonth: () => void;
     goToNextMonth: () => void;
+    goToPreviousYear: () => void;
+    goToNextYear: () => void;
+    resetToToday: () => void;
+    handleDateClick: (date: moment.Moment) => void;
 }

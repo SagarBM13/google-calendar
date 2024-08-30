@@ -14,7 +14,7 @@ const Week: React.FC = () => {
             <div className="flex items-center justify-between mb-4">
                 <button onClick={goToPreviousWeek} className="px-4 py-2 bg-gray-300 rounded">← Previous</button>
                 <div className="text-lg font-semibold">
-                    {startOfWeek.format('MMMM D')} - {endOfWeek.format('MMMM D')}
+                    {startOfWeek.format('MMMM D')} - {endOfWeek.format('MMMM D')} {startOfWeek.format('YYYY')}
                 </div>
                 <button onClick={goToNextWeek} className="px-4 py-2 bg-gray-300 rounded">Next →</button>
             </div>

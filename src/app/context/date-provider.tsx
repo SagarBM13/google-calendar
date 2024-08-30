@@ -33,6 +33,22 @@ export const DateProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setSelectedDate(prevMonth => prevMonth.clone().add(1, 'month'));
     };
 
+    const goToPreviousYear = () => {
+        setSelectedDate(prevYear => prevYear.clone().subtract(1, 'year').startOf('month'));
+    };
+
+    const goToNextYear = () => {
+        setSelectedDate(prevYear => prevYear.clone().add(1, 'year').startOf('month'));
+    };
+
+    const resetToToday = () => {
+        setSelectedDate(moment());
+    };
+    const handleDateClick = (date: moment.Moment) => {
+        setSelectedDate(date);
+    };
+
+
     return (
         <DateContext.Provider value={{
             selectedDate,
@@ -42,7 +58,11 @@ export const DateProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             goToPreviousWeek,
             goToNextWeek,
             goToPreviousMonth,
-            goToNextMonth
+            goToNextMonth,
+            goToPreviousYear,
+            goToNextYear,
+            resetToToday,
+            handleDateClick
         }}>
             {children}
         </DateContext.Provider>
