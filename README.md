@@ -1,4 +1,3 @@
-Here's the updated `README.md` with a highlight about using `moment.js` instead of a datepicker library:
 
 ```markdown
 # Calendar Application
