@@ -18,11 +18,19 @@ export const DateProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
 
     const goToPreviousWeek = () => {
-        setSelectedDate(prevDate => prevDate.clone().subtract(1, 'week'));
+        setSelectedDate(prevWeek => prevWeek.clone().subtract(1, 'week'));
     };
 
     const goToNextWeek = () => {
-        setSelectedDate(prevDate => prevDate.clone().add(1, 'week'));
+        setSelectedDate(prevWeek => prevWeek.clone().add(1, 'week'));
+    };
+
+    const goToPreviousMonth = () => {
+        setSelectedDate(prevMonth => prevMonth.clone().subtract(1, 'month'));
+    };
+
+    const goToNextMonth = () => {
+        setSelectedDate(prevMonth => prevMonth.clone().add(1, 'month'));
     };
 
     return (
@@ -32,8 +40,9 @@ export const DateProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             goToPreviousDay,
             goToNextDay,
             goToPreviousWeek,
-            goToNextWeek
-
+            goToNextWeek,
+            goToPreviousMonth,
+            goToNextMonth
         }}>
             {children}
         </DateContext.Provider>

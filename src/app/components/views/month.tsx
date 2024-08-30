@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import moment from 'moment';
+import React from 'react';
+import { useDate } from '@/app/context/date-provider';
 
 const Month: React.FC = () => {
-    const [currentMonth, setCurrentMonth] = useState(moment().startOf('month'));
+    const { selectedDate, goToPreviousMonth, goToNextMonth } = useDate();
 
-    const startOfMonth = currentMonth.clone().startOf('month');
-    const endOfMonth = currentMonth.clone().endOf('month');
+    const startOfMonth = selectedDate.clone().startOf('month');
+    const endOfMonth = selectedDate.clone().endOf('month');
     const days = [];
     let day = startOfMonth;
 
@@ -14,15 +14,6 @@ const Month: React.FC = () => {
         day = day.add(1, 'day');
     }
 
-    const goToPreviousMonth = () => {
-        setCurrentMonth(prevMonth => prevMonth.clone().subtract(1, 'month'));
-    };
-
-    const goToNextMonth = () => {
-        setCurrentMonth(prevMonth => prevMonth.clone().add(1, 'month'));
-    };
-
-    const monthName = currentMonth.format('MMMM YYYY');
 
     return (
         <div>
@@ -30,7 +21,7 @@ const Month: React.FC = () => {
 
                 <button onClick={goToPreviousMonth} className="px-4 py-2 bg-gray-300 rounded">← Previous</button>
 
-                <h2 className="text-lg font-semibold mb-1">{monthName}</h2>
+                <h2 className="text-lg font-semibold mb-1">{selectedDate.format('MMMM YYYY')}</h2>
 
                 <button onClick={goToNextMonth} className="px-4 py-2 bg-gray-300 rounded">Next →</button>
 

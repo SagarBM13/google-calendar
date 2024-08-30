@@ -7,4 +7,6 @@ export interface DateContextType {
     goToNextDay: () => void;
     goToPreviousWeek: () => void;
     goToNextWeek: () => void;
+    goToPreviousMonth: () => void;
+    goToNextMonth: () => void;
 }
