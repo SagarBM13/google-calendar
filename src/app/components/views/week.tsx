@@ -7,6 +7,7 @@ const Week: React.FC = () => {
 
     const startOfWeek = selectedDate.clone().startOf('week');
     const endOfWeek = selectedDate.clone().endOf('week');
+    const today = moment();
     const days = [...Array(7)].map((_, i) => startOfWeek.clone().add(i, 'days'));
 
     return (
@@ -24,7 +25,7 @@ const Week: React.FC = () => {
                     <tr>
                         <th className="border bg-gray-200 text-neutral-800 p-2 table-cell" style={{ width: '120px', height: '50px' }}>Time</th>
                         {days.map((day, i) => (
-                            <th key={i} className="border bg-gray-100 text-center p-2 table-cell text-neutral-800" style={{ width: '120px', height: '50px' }}>
+                            <th key={i} className={`border bg-gray-100 text-center p-2 table-cell text-neutral-800 ${day.isSame(today, 'day') ? 'bg-yellow-200' : 'bg-gray-100'}`} style={{ width: '120px', height: '50px' }}>
                                 <div>{day.format('dddd')}</div>
                                 <div>{day.format('MMMM Do')}</div>
                             </th>

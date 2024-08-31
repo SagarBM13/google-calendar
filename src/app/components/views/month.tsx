@@ -1,11 +1,13 @@
 import React from 'react';
 import { useDate } from '@/app/context/date-provider';
+import moment from 'moment';
 
 const Month: React.FC = () => {
     const { selectedDate, goToPreviousMonth, goToNextMonth } = useDate();
 
     const startOfMonth = selectedDate.clone().startOf('month');
     const endOfMonth = selectedDate.clone().endOf('month');
+    const today = moment();
     const days = [];
     let day = startOfMonth;
 
@@ -32,7 +34,7 @@ const Month: React.FC = () => {
                     </div>
                 ))}
                 {days.map((day, i) => (
-                    <div key={i} className="border p-4 rounded-lg h-36 text-neutral-800">
+                    <div key={i} className={`border p-4 rounded-lg h-36 text-neutral-800 ${day.isSame(today, 'day') ? 'bg-yellow-200' : ''}`}>
                         <h3 className="font-semibold">{day.format('D')}</h3>
                     </div>
                 ))}
