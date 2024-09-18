@@ -6,16 +6,16 @@ const CreateEvent: React.FC<EventProps> = ({ isOpen, onClose, onSave, initialDat
     const [title, setTitle] = useState(initialData?.title || '');
     const [startTime, setStartTime] = useState(initialData?.startTime || '');
     const [endTime, setEndTime] = useState(initialData?.endTime || '');
-    const [date, setDate] = useState(initialData?.date || '');
+
 
     const handleSave = () => {
-        onSave({ person, title, startTime, endTime, date });
+        onSave({ person, title, startTime, endTime });
         onClose();
     };
 
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+        <div className="fixed inset-0 z-10 flex items-center justify-center bg-gray-800 bg-opacity-75">
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
                 <h2 className="text-lg font-semibold mb-4">Create/Edit Event</h2>
                 <label className="block mb-2">
@@ -36,15 +36,7 @@ const CreateEvent: React.FC<EventProps> = ({ isOpen, onClose, onSave, initialDat
                         className="w-full p-2 mt-1 border rounded-lg"
                     />
                 </label>
-                <label className="block mb-2">
-                    Date:
-                    <input
-                        type="date"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                        className="w-full p-2 mt-1 border rounded-lg"
-                    />
-                </label>
+
                 <label className="block mb-2">
                     Start Time:
                     <input

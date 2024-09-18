@@ -13,7 +13,9 @@ const PIXEL_PER_MINUTE: number = SLOT_HEIGHT_IN_PIXELS / SLOT_HEIGHT_IN_MINUTES;
 const Day: React.FC = () => {
     const { selectedDate, goToPreviousDay, goToNextDay } = useDate()
     const startOfDay = selectedDate.clone().startOf('day');
-    const slots = [...Array(48)].map((_, i) => startOfDay.clone().add(i * 30, 'minutes'));
+    const slots = [...Array(48)].map((_, i) =>
+        startOfDay.clone().add(i * 30, 'minutes')
+    );
     const [currentSlot, setCurrentSlot] = useState<moment.Moment | null>(null);
     const [isModalOpen, setModalOpen] = useState(false);
     const [events, setEvents] = useState<Event[]>(dayJson);
@@ -21,6 +23,7 @@ const Day: React.FC = () => {
 
     const getCurrentTimePosition = () => {
         const minutesFromStart = currentTime.diff(startOfDay, 'minutes');
+        console.log("---", minutesFromStart, minutesFromStart * PIXEL_PER_MINUTE)
         return minutesFromStart * PIXEL_PER_MINUTE;
     };
     const handleEventClick = (e: React.MouseEvent, hour: moment.Moment) => {
@@ -100,8 +103,7 @@ const Day: React.FC = () => {
                     person: '',
                     title: '',
                     startTime: currentSlot ? currentSlot.format('HH:mm') : '',
-                    endTime: currentSlot?.add(15, 'minutes').format('HH:mm') || '',
-                    date: selectedDate.format('YYYY-MM-DD')
+                    endTime: defaultEndTime,
                 }}
             />}
             <div className="flex justify-between items-center mb-4">
@@ -117,24 +119,22 @@ const Day: React.FC = () => {
             </div>
             <div className="grid grid-cols-12 gap-4 mt-2">
                 {slots.map((hour, i) => (
-                    <React.Fragment key={i}>
+                    <React.Fragment key={'slot' + i}>
                         <div className="rounded-lg text-xs pt-2 text-gray-500 pl-4">
                             {hour.format('h:mm A')}
                         </div>
                         <div className="col-span-11 border-t h-20 w-full">
                             <div className="relative h-full">
                                 {getEventsForSlot(hour).length > 0 ? getEventsForSlot(hour).map((event, j) => (
-                                    <div key={event}>
+                                    <div key={event.toString() + j}>
                                         <div
                                             className="w-full cursor-pointer p-2 rounded-lg h-20"
                                             onClick={(e) =>
                                                 handleEventClick(e, hour)
                                             }
                                         ></div>
-                                        <div key={j}
-                                            className="absolute border-l-4 pl-5 pr-3 cursor-pointer w-[98%] 
-                                                left-0 border-primary-800 rounded-lg bg-primary-50
-                                                text-neutral-700 flex flex-col pt-2"
+                                        <div
+                                            className="absolute border-l-4 pl-5 pr-3 cursor-pointer w-[98%] left-0 border-pink-300 rounded-lg bg-slate-400 text-neutral-700 flex flex-col pt-2"
                                             style={{
                                                 top: `${calculateEventPosition(event, hour)}px`,
                                                 height: `${calculateEventHeight(event)}px`,
@@ -174,7 +174,14 @@ const Day: React.FC = () => {
                         </div>
                     </React.Fragment>
                 ))}
-
+                <div
+                    className="absolute bg-red-500 w-full"
+                    style={{
+                        top: getCurrentTimePosition(),
+                        height: '2px',
+                        zIndex: 1,
+                    }}
+                ></div>
             </div>
         </div>
     );
