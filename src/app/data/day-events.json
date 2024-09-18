@@ -1,102 +1,74 @@
 [
     {
-        "time": "09:00 AM",
+        "startTime": "09:00 AM",
+        "endTime": "09:15 AM",
         "title": "Team Meeting",
         "person": "Alice"
     },
     {
         "time": "09:00 AM",
+        "endTime": "09:15 AM",
         "title": "Client Call",
         "person": "Bob"
     },
     {
-        "time": "10:00 AM",
+        "startTime": "10:00 AM",
+        "endTime": "10:15 AM",
         "title": "Project Planning",
         "person": "Charlie"
     },
     {
-        "time": "10:00 AM",
+        "startTime": "10:00 AM",
+        "endTime": "10:15 AM",
         "title": "Design Discussion",
         "person": "Dave"
     },
     {
-        "time": "11:00 PM",
+        "startTime": "11:00 PM",
+        "endTime": "11:15 PM",
         "title": "Project Review",
         "person": "Eve"
     },
     {
-        "time": "11:00 AM",
+        "startTime": "11:00 AM",
+        "endTime": "11:15 AM",
         "title": "Sprint Retrospective",
         "person": "Frank"
     },
     {
-        "time": "11:00 PM",
+        "startTime": "11:00 PM",
+        "endTime": "11:15 PM",
         "title": "Team Sync",
         "person": "Grace"
     },
     {
-        "time": "11:00 PM",
+        "startTime": "11:00 PM",
+        "endTime": "11:15 PM",
         "title": "Lunch Break",
         "person": "Alice"
     },
     {
-        "time": "01:00 PM",
+        "startTime": "01:00 PM",
+        "endTime": "01:15 PM",
         "title": "Client Follow-up",
         "person": "Bob"
     },
     {
-        "time": "01:30 PM",
+        "startTime": "01:30 PM",
+        "endTime": "02:15 PM",
         "title": "Code Review",
         "person": "Charlie"
     },
     {
-        "time": "02:00 PM",
+        "startTime": "02:00 PM",
+        "endTime": "02:15 PM",
         "title": "Team Lunch",
         "person": "Dave"
     },
     {
-        "time": "02:30 PM",
+        "startTime": "02:30 PM",
+        "endTime": "02:45 PM",
         "title": "Brainstorming Session",
         "person": "Eve"
-    },
-    {
-        "time": "03:00 PM",
-        "title": "Project Deployment",
-        "person": "Frank"
-    },
-    {
-        "time": "03:30 PM",
-        "title": "One-on-One",
-        "person": "Grace"
-    },
-    {
-        "time": "04:00 PM",
-        "title": "Team Huddle",
-        "person": "Alice"
-    },
-    {
-        "time": "04:30 PM",
-        "title": "Client Presentation",
-        "person": "Bob"
-    },
-    {
-        "time": "05:00 PM",
-        "title": "Project Wrap-up",
-        "person": "Charlie"
-    },
-    {
-        "time": "05:30 PM",
-        "title": "Design Review",
-        "person": "Dave"
-    },
-    {
-        "time": "06:00 PM",
-        "title": "End-of-Day Report",
-        "person": "Eve"
-    },
-    {
-        "time": "06:30 PM",
-        "title": "Team Debrief",
-        "person": "Frank"
     }
 ]

@@ -1,6 +1,7 @@
 
 export interface Event {
-    time: string;
+    startTime: string;
+    endTime: string;
     title: string;
     person: string;
 }

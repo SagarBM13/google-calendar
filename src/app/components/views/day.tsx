@@ -1,31 +1,93 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-//import dayJson from '@/app/data/day-events.json';
+import dayJson from '@/app/data/day-events.json';
 import { Event } from '@/app/interfaces/event';
 import { useDate } from '@/app/context/date-provider';
 import CreateEvent from '@/app/components/create-event';
+const SLOT_HEIGHT_IN_PIXELS: number = 80;
+const SLOT_HEIGHT_IN_MINUTES: number = 30;
+const PIXEL_PER_MINUTE: number = SLOT_HEIGHT_IN_PIXELS / SLOT_HEIGHT_IN_MINUTES;
 // JSON data for multiple people's events
 //const events: Event[] = dayJson;
 
 const Day: React.FC = () => {
     const { selectedDate, goToPreviousDay, goToNextDay } = useDate()
     const startOfDay = selectedDate.clone().startOf('day');
-    const hours = [...Array(24)].map((_, i) => startOfDay.clone().add(i, 'hours'));
+    const slots = [...Array(48)].map((_, i) => startOfDay.clone().add(i * 30, 'minutes'));
     const [currentSlot, setCurrentSlot] = useState<moment.Moment | null>(null);
     const [isModalOpen, setModalOpen] = useState(false);
-    const [events, setEvents] = useState<Event[]>([]);
+    const [events, setEvents] = useState<Event[]>(dayJson);
+    const currentTime = moment();
 
-    const handleEventClick = (hour: moment.Moment) => {
-        setCurrentSlot(hour);
+    const getCurrentTimePosition = () => {
+        const minutesFromStart = currentTime.diff(startOfDay, 'minutes');
+        return minutesFromStart * PIXEL_PER_MINUTE;
+    };
+    const handleEventClick = (e: React.MouseEvent, hour: moment.Moment) => {
+        const clickPositionY = e.nativeEvent.offsetY;
+        const minutesInSlot =
+            (clickPositionY / SLOT_HEIGHT_IN_PIXELS) * SLOT_HEIGHT_IN_MINUTES;
+        const clickedTime = hour.clone().add(minutesInSlot, 'minutes');
+        setCurrentSlot(clickedTime);
         setModalOpen(true);
     };
-    const getEventsForHour = (hour: moment.Moment) => {
-        return events?.filter(event => moment(hour).format('hh:mm A') === event.time) || [];
+
+
+    const getEventSpan = (event: any) => {
+        const eventStart = moment(event?.startTime, 'hh:mm A');
+        const eventEnd = moment(event?.endTime, 'hh:mm A');
+        const duration = moment.duration(eventEnd.diff(eventStart));
+        return duration.asMinutes();
     };
-    const handleSaveEvent = (event: { person: string; title: string; time: string; date: string }) => {
-        setEvents(prevEvents => [...prevEvents, event]);
+
+    const getEventsForSlot = (slot: moment.Moment) => {
+        return (
+            events?.filter((event: any) => {
+                const eventStart = moment(event?.startTime, 'hh:mm A');
+                return (
+                    slot.isSameOrBefore(eventStart) &&
+                    slot.clone().add(30, 'minutes').isAfter(eventStart)
+                );
+            }) || []
+        );
+    };
+
+    const handleSaveEvent = (event: {
+        person: string;
+        title: string;
+        startTime: string;
+        endTime: string;
+    }) => {
+        const formattedEvent = {
+            ...event,
+            startTime: moment(event.startTime, 'HH:mm').format('hh:mm A'),
+            endTime: moment(event.endTime, 'HH:mm').format('hh:mm A'),
+        };
+        setEvents((prevEvents) => [...prevEvents, formattedEvent]);
         setModalOpen(false);
     };
+
+
+
+    const getDefaultEndTime = (startTime: moment.Moment) => {
+        return startTime.clone().add(30, 'minutes').format('HH:mm');
+    };
+
+    const defaultEndTime = currentSlot
+        ? getDefaultEndTime(currentSlot)
+        : getDefaultEndTime(currentTime);
+
+    const calculateEventPosition = (event: any, hour: moment.Moment) => {
+        const eventStart = moment(event?.startTime, 'hh:mm A');
+        const minutesFromStart = eventStart.diff(hour, 'minutes');
+        return minutesFromStart * PIXEL_PER_MINUTE;
+    };
+
+    const calculateEventHeight = (event: any) => {
+        const durationMinutes = getEventSpan(event);
+        return durationMinutes * PIXEL_PER_MINUTE;
+    };
+
 
 
     return (
@@ -37,7 +99,8 @@ const Day: React.FC = () => {
                 initialData={{
                     person: '',
                     title: '',
-                    time: currentSlot ? currentSlot.format('HH:mm') : '',
+                    startTime: currentSlot ? currentSlot.format('HH:mm') : '',
+                    endTime: currentSlot?.add(15, 'minutes').format('HH:mm') || '',
                     date: selectedDate.format('YYYY-MM-DD')
                 }}
             />}
@@ -53,27 +116,65 @@ const Day: React.FC = () => {
                 <div className="col-span-10 font-semibold">Events</div>
             </div>
             <div className="grid grid-cols-12 gap-4 mt-2">
-                {hours.map((hour, i) => (
+                {slots.map((hour, i) => (
                     <React.Fragment key={i}>
-                        <div className="col-span-2 border p-2 rounded-lg bg-gray-100 text-neutral-800">
+                        <div className="rounded-lg text-xs pt-2 text-gray-500 pl-4">
                             {hour.format('h:mm A')}
                         </div>
-                        <div className="col-span-10 border p-2 rounded-lg">
-                            <div className="grid grid-cols-3 gap-2">
-                                {getEventsForHour(hour).length > 0 ? getEventsForHour(hour).map((event, j) => (
-                                    <div key={j} className="border p-2 rounded-lg bg-blue-100 text-neutral-700">
-                                        <strong>{event.person}:</strong> {event.title}
+                        <div className="col-span-11 border-t h-20 w-full">
+                            <div className="relative h-full">
+                                {getEventsForSlot(hour).length > 0 ? getEventsForSlot(hour).map((event, j) => (
+                                    <div key={event}>
+                                        <div
+                                            className="w-full cursor-pointer p-2 rounded-lg h-20"
+                                            onClick={(e) =>
+                                                handleEventClick(e, hour)
+                                            }
+                                        ></div>
+                                        <div key={j}
+                                            className="absolute border-l-4 pl-5 pr-3 cursor-pointer w-[98%] 
+                                                left-0 border-primary-800 rounded-lg bg-primary-50
+                                                text-neutral-700 flex flex-col pt-2"
+                                            style={{
+                                                top: `${calculateEventPosition(event, hour)}px`,
+                                                height: `${calculateEventHeight(event)}px`,
+                                                zIndex: 2,
+                                            }}
+                                            onClick={(e) =>
+                                                handleEventClick(
+                                                    e,
+                                                    moment(
+                                                        event?.startTime,
+                                                        'hh:mm A'
+                                                    )
+                                                )
+                                            }
+                                        >
+                                            <div className="flex items-center gap-x-2 relative">
+                                                <div className="text-primary-900 font-semibold">
+                                                    {event?.person}
+                                                </div>
+                                                <div className="text-primary-700">{event?.title}</div>
+                                            </div>
+                                            <div className="mt-1">
+                                                <div className="text-primary-700 mt-1">
+                                                    {event?.startTime} -{' '}
+                                                    {event?.endTime}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 )) : (
                                     <div
-                                        className="border p-2 rounded-lg bg-blue-100 text-neutral-700"
-                                        onClick={() => handleEventClick(hour)}
+                                        className="w-full cursor-pointer p-2 rounded-lg h-20"
+                                        onClick={(e) => handleEventClick(e, hour)}
                                     ></div>
                                 )}
                             </div>
                         </div>
                     </React.Fragment>
                 ))}
+
             </div>
         </div>
     );

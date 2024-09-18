@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import { EventProps } from '@/app/interfaces/event-props';
 
 const CreateEvent: React.FC<EventProps> = ({ isOpen, onClose, onSave, initialData }) => {
     const [person, setPerson] = useState(initialData?.person || '');
     const [title, setTitle] = useState(initialData?.title || '');
-    const [time, setTime] = useState(initialData?.time || '');
+    const [startTime, setStartTime] = useState(initialData?.startTime || '');
+    const [endTime, setEndTime] = useState(initialData?.endTime || '');
     const [date, setDate] = useState(initialData?.date || '');
 
     const handleSave = () => {
-        onSave({ person, title, time, date });
+        onSave({ person, title, startTime, endTime, date });
         onClose();
     };
 
-    if (!isOpen) return null;
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
@@ -46,11 +46,21 @@ const CreateEvent: React.FC<EventProps> = ({ isOpen, onClose, onSave, initialDat
                     />
                 </label>
                 <label className="block mb-2">
-                    Time:
+                    Start Time:
                     <input
-                        type="time"
-                        value={time}
-                        onChange={(e) => setTime(e.target.value)}
+                        type="startTime"
+                        value={startTime}
+                        onChange={(e) => setStartTime(e.target.value)}
+                        className="w-full p-2 mt-1 border rounded-lg"
+                    />
+                </label>
+
+                <label className="block mb-2">
+                    End Time:
+                    <input
+                        type="startTime"
+                        value={endTime}
+                        onChange={(e) => setEndTime(e.target.value)}
                         className="w-full p-2 mt-1 border rounded-lg"
                     />
                 </label>
