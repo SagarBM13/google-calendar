@@ -1,74 +1,37 @@
 [
     {
+        "id": "1",
         "startTime": "09:00 AM",
-        "endTime": "09:15 AM",
+        "endTime": "09:30 AM",
         "title": "Team Meeting",
         "person": "Alice"
     },
     {
-        "time": "09:00 AM",
+        "id": "2",
+        "startTime": "09:00 AM",
         "endTime": "09:15 AM",
         "title": "Client Call",
         "person": "Bob"
     },
     {
+        "id": "3",
         "startTime": "10:00 AM",
         "endTime": "10:15 AM",
         "title": "Project Planning",
         "person": "Charlie"
     },
     {
+        "id": "4",
         "startTime": "10:00 AM",
         "endTime": "10:15 AM",
         "title": "Design Discussion",
         "person": "Dave"
     },
     {
-        "startTime": "11:00 PM",
-        "endTime": "11:15 PM",
-        "title": "Project Review",
-        "person": "Eve"
-    },
-    {
+        "id": "5",
         "startTime": "11:00 AM",
         "endTime": "11:15 AM",
-        "title": "Sprint Retrospective",
-        "person": "Frank"
-    },
-    {
-        "startTime": "11:00 PM",
-        "endTime": "11:15 PM",
-        "title": "Team Sync",
-        "person": "Grace"
-    },
-    {
-        "startTime": "11:00 PM",
-        "endTime": "11:15 PM",
-        "title": "Lunch Break",
-        "person": "Alice"
-    },
-    {
-        "startTime": "01:00 PM",
-        "endTime": "01:15 PM",
-        "title": "Client Follow-up",
-        "person": "Bob"
-    },
-    {
-        "startTime": "01:30 PM",
-        "endTime": "02:15 PM",
-        "title": "Code Review",
-        "person": "Charlie"
-    },
-    {
-        "startTime": "02:00 PM",
-        "endTime": "02:15 PM",
-        "title": "Team Lunch",
-        "person": "Dave"
-    },
-    {
-        "startTime": "02:30 PM",
-        "endTime": "02:45 PM",
-        "title": "Brainstorming Session",
+        "title": "Project Review",
         "person": "Eve"
     }
 ]
