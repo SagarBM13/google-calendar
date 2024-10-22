@@ -8,6 +8,7 @@ import dayJson from '@/app/data/day-events.json';
 const SLOT_HEIGHT_IN_PIXELS: number = 80;
 const SLOT_HEIGHT_IN_MINUTES: number = 30;
 const PIXEL_PER_MINUTE: number = SLOT_HEIGHT_IN_PIXELS / SLOT_HEIGHT_IN_MINUTES;
+const MIN_EVENT_HEIGHT: number = 20; // Minimum event height in pixels for short events.
 
 const Day: React.FC = () => {
     const { selectedDate, goToPreviousDay, goToNextDay } = useDate();
@@ -89,33 +90,44 @@ const Day: React.FC = () => {
         const eventStart = moment(event.startTime, 'hh:mm A');
         const eventEnd = moment(event.endTime, 'hh:mm A');
         const durationMinutes = eventEnd.diff(eventStart, 'minutes');
-        return durationMinutes * PIXEL_PER_MINUTE;
+        return Math.max(durationMinutes * PIXEL_PER_MINUTE, MIN_EVENT_HEIGHT); // Ensure minimum height
     };
 
     const renderEvent = useCallback((event: Event) => {
         const { eventWidth, eventLeftPosition } = getEventWidthAndPosition(event, sortedEvents);
         const eventTop = calculateEventPosition(event);
         const eventHeight = calculateEventHeight(event);
+        const durationMinutes = moment(event.endTime, 'hh:mm A').diff(moment(event.startTime, 'hh:mm A'), 'minutes');
+
 
         return (
             <div
                 key={`${event.id}-${event.startTime}`}
-                className="absolute border-l-4 pl-2 pr-1 cursor-pointer rounded-lg text-neutral-700 flex flex-col pt-1 overflow-hidden"
+                className="absolute border-l-4 pl-2 pr-1 cursor-pointer rounded-lg text-neutral-700 flex flex-col pt-1 overflow-hidden transition-all duration-200 hover:scale-105 hover:z-10"
                 style={{
                     top: `${eventTop}px`,
                     height: `${eventHeight}px`,
                     width: `${eventWidth}%`,
                     left: `${eventLeftPosition}%`,
-                    backgroundColor: '#E2E8F0', // Customize colors based on event type if needed
+                    backgroundColor: '#E2E8F0',
                     borderColor: '#94A3B8',
+                    minHeight: MIN_EVENT_HEIGHT,
                 }}
                 onClick={() => setModalOpen(true)}
             >
-                <div className="font-semibold truncate">{event.person}</div>
-                <div className="text-sm truncate">{event.title}</div>
-                <div className="text-xs">
-                    {event.startTime} - {event.endTime}
-                </div>
+                {durationMinutes >= 15 && ( // Show details only if event is longer than 15 minutes
+                    <>
+                        <div className="text-sm truncate">{event.person}</div>
+                        <div className="text-xs">{event.startTime} - {event.endTime}</div>
+                    </>
+                )}
+                {durationMinutes < 15 && (
+                    <div className="absolute bg-gray-700 text-white text-xs rounded px-2 py-1 shadow-lg top-6 left-0 z-20 hidden group-hover:block">
+                        <div className="font-semibold">{event.person}</div>
+                        <div className="text-xs">{event.title}</div>
+                        <div>{event.startTime} - {event.endTime}</div>
+                    </div>
+                )}
             </div>
         );
     }, [getEventWidthAndPosition, sortedEvents]);
@@ -166,9 +178,8 @@ const Day: React.FC = () => {
                     style={{
                         top: getCurrentTimePosition(),
                         height: '2px',
-                        zIndex: 1,
                     }}
-                ></div>
+                />
             </div>
         </div>
     );

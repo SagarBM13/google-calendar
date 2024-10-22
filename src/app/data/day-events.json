@@ -2,14 +2,14 @@
     {
         "id": "1",
         "startTime": "09:00 AM",
-        "endTime": "09:30 AM",
+        "endTime": "05:30 PM",
         "title": "Team Meeting",
         "person": "Alice"
     },
     {
         "id": "2",
         "startTime": "09:00 AM",
-        "endTime": "09:15 AM",
+        "endTime": "09:45 AM",
         "title": "Client Call",
         "person": "Bob"
     },
